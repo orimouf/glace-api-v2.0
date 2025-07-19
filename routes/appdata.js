@@ -42,7 +42,9 @@ router.post("/dataclients", async (req, res) => {
                             isPromo: is_promo,
                             camion: Element.camion,
                             creditBon: Element.credit_bon,
-                            lastServe: Element.last_serve
+                            remise: Element.remise,
+                            status: Element.status,
+                            synchronization: Element.synchronization
                         },
                         { new: true }
                     )
@@ -66,7 +68,9 @@ router.post("/dataclients", async (req, res) => {
                 isPromo: is_promo,
                 camion: Element.camion,
                 creditBon: Element.credit_bon,
-                lastServe: Element.last_serve
+                remise: Element.remise,
+                status: Element.status,
+                synchronization: Element.synchronization
             })
             
             try{

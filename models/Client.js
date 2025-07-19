@@ -10,7 +10,7 @@ const ClientSchema = new mongoose.Schema(
         oldCredit: { type: String, required: true },
         isCredit: { type: Boolean, default: false },
         isFrigo: { type: Boolean, default: false },
-        isPromo: { type: Boolean, default: falser },
+        isPromo: { type: Boolean, default: false },
         remise: {type: String, required: true, default: "0" },
         status: {type: String, required: true, default: "0" },
         creditBon: { type: String, default: "0" },
