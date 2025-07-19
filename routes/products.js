@@ -12,41 +12,51 @@ router.get("/get/", async (req, res) => { //verify
             
             const mapReturn = getAllClients.map( async client => {
 
-                const arrayId = [
-                    "6676171009c9b6a887d59bb2*","6676171009c9b6a887d59bb3*","6676171009c9b6a887d59bb4*","6676171009c9b6a887d59bb5*",
-                    "6676171009c9b6a887d59bb6*","6676171009c9b6a887d59bb7*","6676171009c9b6a887d59bb8*","6676171009c9b6a887d59bb9*",
-                    "6676171009c9b6a887d59bbb*","6676171009c9b6a887d59bbc*","6676171009c9b6a887d59bbd*","6676171009c9b6a887d59bbe*",
-                    "6676171009c9b6a887d59bbf*","6676171009c9b6a887d59bc0*","6676171009c9b6a887d59bc1*","6676171009c9b6a887d59bc2*",
-                    "6676171009c9b6a887d59bc3*","6676171009c9b6a887d59bc4*","6676171009c9b6a887d59bc5*","6676171009c9b6a887d59bc6*",
-                    "6676171009c9b6a887d59bc7*","6676171009c9b6a887d59bc8*","6676171009c9b6a887d59bc9*","6676171009c9b6a887d59bca*",
-                    "6676171009c9b6a887d59bcb*","6676171009c9b6a887d59bcc*","6676171009c9b6a887d59bcd*","6676171009c9b6a887d59bce*",
-                    "6676171009c9b6a887d59bcf*","6676171009c9b6a887d59bd0*","6676171009c9b6a887d59bd1*","6676171009c9b6a887d59bd2*",
-                    "6676171009c9b6a887d59bd3*","6676171009c9b6a887d59bd4*","6676171009c9b6a887d59bd5*","6676171009c9b6a887d59bd6*",
-                    "6676171009c9b6a887d59bd7*","6676171009c9b6a887d59bd8*"
-                ]
+                // const arrayId = [
+                //     "6676171009c9b6a887d59bb2*","6676171009c9b6a887d59bb3*","6676171009c9b6a887d59bb4*","6676171009c9b6a887d59bb5*",
+                //     "6676171009c9b6a887d59bb6*","6676171009c9b6a887d59bb7*","6676171009c9b6a887d59bb8*","6676171009c9b6a887d59bb9*",
+                //     "6676171009c9b6a887d59bbb*","6676171009c9b6a887d59bbc*","6676171009c9b6a887d59bbd*","6676171009c9b6a887d59bbe*",
+                //     "6676171009c9b6a887d59bbf*","6676171009c9b6a887d59bc0*","6676171009c9b6a887d59bc1*","6676171009c9b6a887d59bc2*",
+                //     "6676171009c9b6a887d59bc3*","6676171009c9b6a887d59bc4*","6676171009c9b6a887d59bc5*","6676171009c9b6a887d59bc6*",
+                //     "6676171009c9b6a887d59bc7*","6676171009c9b6a887d59bc8*","6676171009c9b6a887d59bc9*","6676171009c9b6a887d59bca*",
+                //     "6676171009c9b6a887d59bcb*","6676171009c9b6a887d59bcc*","6676171009c9b6a887d59bcd*","6676171009c9b6a887d59bce*",
+                //     "6676171009c9b6a887d59bcf*","6676171009c9b6a887d59bd0*","6676171009c9b6a887d59bd1*","6676171009c9b6a887d59bd2*",
+                //     "6676171009c9b6a887d59bd3*","6676171009c9b6a887d59bd4*","6676171009c9b6a887d59bd5*","6676171009c9b6a887d59bd6*",
+                //     "6676171009c9b6a887d59bd7*","6676171009c9b6a887d59bd8*"
+                // ]
 
-                var arrayPrice = client.prices.split(":")
-                var newPrice = ""
-                for (let i = 0; i < arrayPrice.length; i++) {
-                    if (i !== arrayPrice.length - 1) newPrice += `${arrayId[i]}${arrayPrice[i]}:`
-                    else newPrice += `${arrayId[i]}${arrayPrice[i]}`
-                }
+                // var arrayPrice = client.prices.split(":")
+                // var newPrice = ""
+                // for (let i = 0; i < arrayPrice.length; i++) {
+                //     if (i !== arrayPrice.length - 1) newPrice += `${arrayId[i]}${arrayPrice[i]}:`
+                //     else newPrice += `${arrayId[i]}${arrayPrice[i]}`
+                // }
 
-                // // Update Price -- delete ':' from last
+                // for (let i = 0; i < arrayPrice.length; i++) {
+                //     let arr = arrayPrice[i].split("*")
+
+                //     if (arr[0] === "6676171009c9b6a887d59bb9") newPrice += `${arr[0]}*${arr[1]}:6676171009c9b6a887d59bba*${arr[1]}:`
+                //     else newPrice += `${arr[0]}*${arr[1]}:`
+                // }
+
+                // client.prices = newPrice
+                
+
+                // Update Price -- delete ':' from last
                 // const lastChar = client.prices[client.prices.length - 1];
                 // if (lastChar === ":") {
                 //     client.prices = client.prices.slice(0, -1);
                 // }
 
-                client.prices = newPrice
                 // console.log(client.prices);
                 
-                const updateClient = await Client.findByIdAndUpdate(client._id, 
-                    {
-                        $set:client,
-                    },
-                    { new: true }
-                )
+                // const updateClient = await Client.findByIdAndUpdate(client._id, 
+                //     {
+                //         $set:client,
+                //     },
+                //     { new: true }
+                // )
+
             })
 
             if (mapReturn.length != 0) {
