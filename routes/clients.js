@@ -27,7 +27,8 @@ router.post("/", async (req, res) => {
             isPromo: is_promo,
             camion: clientDataFromApp.camion,
             creditBon: clientDataFromApp.credit_bon,
-            lastServe: clientDataFromApp.last_serve
+            remise: clientDataFromApp.remise,
+            status: clientDataFromApp.status
         })
         
         try {

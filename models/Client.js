@@ -11,8 +11,10 @@ const ClientSchema = new mongoose.Schema(
         isCredit: { type: Boolean, default: false },
         isFrigo: { type: Boolean, default: false },
         isPromo: { type: Boolean, default: false },
-        creditBon: { type: String, default: "" },
-        lastServe: { type: String, required: true },
+        remise: {type: String, required: true, default: "0" },
+        status: {type: String, required: true, default: "0" },
+        creditBon: { type: String, default: "0" },
+        synchronization: { type: String, default: "0" },
         camion: { type: String, required: true }
     },
     {timestamps: true}
