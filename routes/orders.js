@@ -13,7 +13,7 @@ router.post("/", async (req, res) => { // , verify
         console.log(req.body);
         
         try {
-            const newOrder = {
+            const newOrder = new Order({
                 appId: data.id,
                 clientName: data.client_name,
                 clientId: data.client_id, 
@@ -27,7 +27,7 @@ router.post("/", async (req, res) => { // , verify
                 isCredit: data.iscredit, 
                 date: data.date, 
                 isCheck: data.is_check
-            }
+            })
             
             
             const savedOrder = await newOrder.save()
