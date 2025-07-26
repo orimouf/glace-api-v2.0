@@ -11,6 +11,8 @@ router.post("/", async (req, res) => { // , verify
         const newOrder = new Order(req.body)
 
         try {
+            console.log(newOrder);
+            
             const savedOrder = await newOrder.save()
             res.status(200).json(savedOrder)
         } catch (err) {
