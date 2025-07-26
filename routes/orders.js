@@ -8,30 +8,33 @@ const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
-        // const newOrder = new Order(req.body)
         const data = req.body
         console.log(req.body);
+
+        const newOrder = new Order ({
+            appId: data.id,
+            clientName: data.client_name,
+            clientId: data.client_id, 
+            productList : data.product_list, 
+            totalToPay: data.total_to_pay, 
+            verssi: data.verssi, 
+            rest: data.rest, 
+            profit: data.profit,
+            remise: data.remise,
+            camion: data.camion,
+            isCredit: data.iscredit, 
+            date: data.date, 
+            isCheck: data.is_check
+        })
         
         try {
-            const newOrder = new Order({
-                appId: data.id,
-                clientName: data.client_name,
-                clientId: data.client_id, 
-                productList : data.product_list, 
-                totalToPay: data.total_to_pay, 
-                verssi: data.verssi, 
-                rest: data.rest, 
-                profit: data.profit,
-                remise: data.remise,
-                camion: data.camion,
-                isCredit: data.iscredit, 
-                date: data.date, 
-                isCheck: data.is_check
-            })
-            
-            
+            console.log(newOrder);
             const savedOrder = await newOrder.save()
-            res.status(200).json(savedOrder)
+            res.status(200).json({
+                status: 1,
+                message: "Order save Successful",
+                data: savedOrder
+            })
         } catch (err) {
             console.log(err);
             res.status(500).json(err)
