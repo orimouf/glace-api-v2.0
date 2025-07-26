@@ -6,8 +6,8 @@ const mongoose = require("mongoose")
 
 // CREATE
 
-router.post("/", verify, async (req, res) => {
-    if(req.user.isAdmin) {
+router.post("/", async (req, res) => { // , verify
+    // if(req.user.isAdmin) {
         const newOrder = new Order(req.body)
 
         try {
@@ -16,9 +16,9 @@ router.post("/", verify, async (req, res) => {
         } catch (err) {
             res.status(500).json(err)
         }
-    } else {
-        res.status(500).json("you are not allowed!")
-    }
+    // } else {
+        // res.status(500).json("you are not allowed!")
+    // }
 })
 
 //UPDATE
