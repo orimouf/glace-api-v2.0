@@ -9,11 +9,12 @@ const mongoose = require("mongoose")
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
         const newOrder = new Order(req.body)
-
+        
+        console.log(newOrder);
+        
         try {
-            console.log(newOrder);
             
-            const savedOrder = await newOrder.save()
+            // const savedOrder = await newOrder.save()
             res.status(200).json(savedOrder)
         } catch (err) {
             res.status(500).json(err)
