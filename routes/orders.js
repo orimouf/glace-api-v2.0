@@ -33,6 +33,7 @@ router.post("/", async (req, res) => { // , verify
             const savedOrder = await newOrder.save()
             res.status(200).json(savedOrder)
         } catch (err) {
+            console.log(err);
             res.status(500).json(err)
         }
     // } else {
