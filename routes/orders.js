@@ -8,9 +8,9 @@ const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
-        const newOrder = new Order(req.body)
+        // const newOrder = new Order(req.body)
         
-        console.log(newOrder);
+        console.log(req.body);
         
         try {
             
