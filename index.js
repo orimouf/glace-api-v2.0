@@ -8,11 +8,11 @@ const regionRoute = require("./routes/regions")
 const feesRoute = require("./routes/fees")
 const productRoute = require("./routes/products")
 const orderRoute = require("./routes/orders")
-const orderedProductRoute = require("./routes/orderedProducts")
 const appData = require("./routes/appdata")
 const paymentData = require("./routes/payments")
 const clientRoute = require("./routes/clients")
 const factureRoute = require("./routes/facture")
+const fridgeRoute = require("./routes/fridge")
 
 
 dotenv.config();
@@ -46,9 +46,9 @@ app.use("/api/clients", clientRoute)
 app.use("/api/products", productRoute)
 app.use("/api/payments", paymentData)
 app.use("/api/orders", orderRoute)
-app.use("/api/allproducts", orderedProductRoute)
 app.use("/api/appdata", appData)
 app.use("/api/factures", factureRoute)
+app.use("/api/fridge", fridgeRoute)
 
 
 app.listen(9900, () => {
