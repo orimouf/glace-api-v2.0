@@ -67,7 +67,7 @@ router.post("/", async (req, res) => { // , verify
         return allOrdersSaved
     }
 
-    if (ordersStatus.length == data.length) {
+    if (ordersStatus.length != 0) { //== data.length
        res.status(201).json({
                 status: 1,
                 message: "Order save Successful",
