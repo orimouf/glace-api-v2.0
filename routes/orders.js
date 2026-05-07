@@ -9,65 +9,70 @@ const mongoose = require("mongoose")
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
         const data = req.body.data
-        var isDone = false
+        var ordersStatus
         console.log(data);
-
-        data.map( order => {
-            var newProductList = []
-
-            if (order.product_list != "") {
-                var productListArr = order.product_list.split(":")
-                var productObj = {}
-                productListArr.map( product => {
-                    let productArr = product.split("*")
-                    productObj = {
-                        "productId": productArr[0],
-                        "productName": productArr[1],
-                        "productQty": productArr[2],
-                        "productQtyItem": productArr[3],
-                        "productPrice": productArr[4]
-                    }
-
-                    newProductList.push(productObj)
-                })
-            }
-
-            const newOrder = new Order ({
-                appId: data.id,
-                clientName: data.client_name,
-                clientId: data.client_id, 
-                clientRegion: data.client_region,
-                productList : newProductList, 
-                totalToPay: data.total_to_pay, 
-                verssi: data.verssi, 
-                rest: data.rest, 
-                profit: data.profit,
-                remise: data.remise,
-                camion: data.camion,
-                isCredit: data.iscredit, 
-                date: data.date, 
-                isCheck: data.is_check
-            })
-
-            try {
-                console.log(newOrder);
-                const savedOrder = await newOrder.save()
-                isDone = true
-            } catch (err) {
-                console.log(err);
-                res.status(500).json(err)
-            }
+        
+        data.map( orderData => {
+            ordersStatus = await insertOrderData(orderData).catch(err => {console.log(err);})
         })
         
-        if (isDone) {
-            res.status(200).json({
+    async function insertOrderData(order) {
+        var newProductList = []
+        var status = ""
+        if (order.product_list != "") {
+            var productListArr = order.product_list.split(":")
+            var productObj = {}
+            productListArr.map( product => {
+                let productArr = product.split("*")
+                productObj = {
+                    "productId": productArr[0],
+                    "productName": productArr[1],
+                    "productQty": productArr[2],
+                    "productQtyItem": productArr[3],
+                    "productPrice": productArr[4]
+                }
+
+                newProductList.push(productObj)
+            })
+        }
+
+        const newOrder = new Order ({
+            appId: order.id,
+            clientName: order.client_name,
+            clientId: new mongoose.mongo.ObjectId(order.client_id), 
+            clientRegion: order.client_region,
+            productList : newProductList, 
+            totalToPay: order.total_to_pay, 
+            verssi: order.verssi, 
+            rest: order.rest, 
+            profit: order.profit,
+            remise: order.remise,
+            camion: order.camion,
+            isCredit: order.iscredit, 
+            date: order.date, 
+            isCheck: order.is_check
+        })
+        
+        try {
+            console.log(newOrder);
+            const savedOrder = await newOrder.save()
+            status = "done"
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err)
+        }
+        return status
+    }
+
+    if (ordersStatus == "done") {
+       res.status(200).json({
                 status: 1,
                 message: "Order save Successful",
                 data: savedOrder
             })
-        }
-        
-        
+    } else {
+        res.status(500).json(ordersStatus)
+    }
     // } else {
         // res.status(500).json("you are not allowed!")
     // }
