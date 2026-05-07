@@ -8,7 +8,7 @@ const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
-        const data = req.body
+        const data = req.body.data
         console.log(req.body);
         var newProductList = []
 
