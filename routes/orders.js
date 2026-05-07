@@ -9,19 +9,9 @@ const mongoose = require("mongoose")
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
     const data = req.body.data
-    var ordersStatus
     console.log(data);
     
-    for (let i = 0; i < data.length; i++) {
-        ordersStatus = await insertOrderData(data[i]).catch(err => {console.log(err);})
-    }
-        // data.map( orderData => {
-            
-        // })
-        
-    async function insertOrderData(order) {
         var newProductList = []
-        var allOrdersSaved = []
         if (order.product_list != "") {
             var productListArr = order.product_list.split(":")
             var productObj = {}
@@ -59,23 +49,15 @@ router.post("/", async (req, res) => { // , verify
         try {
             console.log(newOrder);
             const savedOrder = await newOrder.save()
-            allOrdersSaved.push(savedOrder.clientId)
-        } catch (err) {
-            console.log(err);
-            return err
-        }
-        return allOrdersSaved
-    }
-
-    if (ordersStatus.length != 0) { //== data.length
-       res.status(201).json({
+            res.status(201).json({
                 status: 1,
                 message: "Order save Successful",
-                data: ordersStatus
+                data: savedOrder
             })
-    } else {
-        res.status(500).json("ERROR")
-    }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err)
+        }
     // } else {
         // res.status(500).json("you are not allowed!")
     // }
