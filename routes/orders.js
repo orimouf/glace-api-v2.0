@@ -9,6 +9,7 @@ const mongoose = require("mongoose")
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
         const data = req.body.data
+        var isDone = false
         console.log(data);
 
         data.map( order => {
@@ -47,21 +48,26 @@ router.post("/", async (req, res) => { // , verify
                 date: data.date, 
                 isCheck: data.is_check
             })
+
+            try {
+                console.log(newOrder);
+                const savedOrder = await newOrder.save()
+                isDone = true
+            } catch (err) {
+                console.log(err);
+                res.status(500).json(err)
+            }
         })
         
-        
-        try {
-            console.log(newOrder);
-            const savedOrder = await newOrder.save()
+        if (isDone) {
             res.status(200).json({
                 status: 1,
                 message: "Order save Successful",
                 data: savedOrder
             })
-        } catch (err) {
-            console.log(err);
-            res.status(500).json(err)
         }
+        
+        
     // } else {
         // res.status(500).json("you are not allowed!")
     // }
