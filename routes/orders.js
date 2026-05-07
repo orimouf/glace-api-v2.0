@@ -15,6 +15,7 @@ router.post("/", async (req, res) => { // , verify
             appId: data.id,
             clientName: data.client_name,
             clientId: data.client_id, 
+            clientRegion: data.client_region,
             productList : data.product_list, 
             totalToPay: data.total_to_pay, 
             verssi: data.verssi, 
@@ -52,6 +53,7 @@ router.put("/:id", async (req, res) => {
             const newData = {
                 clientName: req.body.clientName,
                 clientId: new mongoose.mongo.ObjectId(req.body.clientId),
+                clientRegion: req.body.client_region,
                 totalToPay: req.body.totalToPay,
                 verssi: req.body.verssi,
                 rest: req.body.rest,
