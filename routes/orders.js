@@ -22,7 +22,6 @@ router.post("/", async (req, res) => { // , verify
     async function insertOrderData(order) {
         var newProductList = []
         var allOrdersSaved = []
-        var status = ""
         if (order.product_list != "") {
             var productListArr = order.product_list.split(":")
             var productObj = {}
@@ -61,22 +60,21 @@ router.post("/", async (req, res) => { // , verify
             console.log(newOrder);
             const savedOrder = await newOrder.save()
             allOrdersSaved.push(savedOrder)
-            status = "done"
         } catch (err) {
             console.log(err);
             res.status(500).json(err)
         }
-        return status
+        return allOrdersSaved
     }
 
-    if (ordersStatus == "done") {
+    if (ordersStatus.length == data.length) {
        res.status(200).json({
                 status: 1,
                 message: "Order save Successful",
-                data: allOrdersSaved
+                data: ordersStatus
             })
     } else {
-        res.status(500).json(ordersStatus)
+        res.status(500).json("ERROR")
     }
     // } else {
         // res.status(500).json("you are not allowed!")
