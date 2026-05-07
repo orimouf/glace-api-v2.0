@@ -42,20 +42,20 @@ router.post("/", async (req, res) => { // , verify
             }
         
             const newOrder = new Order ({
-                appId: order.id,
-                clientName: order.client_name,
-                clientId: new mongoose.mongo.ObjectId(order.client_id), 
-                clientRegion: order.client_region,
+                appId: Element.id,
+                clientName: Element.client_name,
+                clientId: new mongoose.mongo.ObjectId(Element.client_id), 
+                clientRegion: Element.client_region,
                 productList : newProductList, 
-                totalToPay: order.total_to_pay, 
-                verssi: order.verssi, 
-                rest: order.rest, 
-                profit: order.profit,
-                remise: order.remise,
-                camion: order.camion,
-                isCredit: order.iscredit, 
-                date: order.date, 
-                isCheck: order.is_check
+                totalToPay: Element.total_to_pay, 
+                verssi: Element.verssi, 
+                rest: Element.rest, 
+                profit: Element.profit,
+                remise: Element.remise,
+                camion: Element.camion,
+                isCredit: Element.iscredit, 
+                date: Element.date, 
+                isCheck: Element.is_check
             })
 
             try{
