@@ -59,7 +59,7 @@ router.post("/", async (req, res) => { // , verify
         try {
             console.log(newOrder);
             const savedOrder = await newOrder.save()
-            allOrdersSaved.push(savedOrder)
+            allOrdersSaved.push(savedOrder.clientId)
         } catch (err) {
             console.log(err);
             return err
