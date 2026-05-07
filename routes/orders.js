@@ -10,13 +10,32 @@ router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
         const data = req.body
         console.log(req.body);
+        var newProductList = []
+
+        if (data.product_list != "") {
+            
+            var productListArr = data.product_list.split(":")
+            var productObj = {}
+            productListArr.map( product => {
+                let productArr = product.split("*")
+                productObj = {
+                    "productId": productArr[0],
+                    "productName": productArr[1],
+                    "productQty": productArr[2],
+                    "productQtyItem": productArr[3],
+                    "productPrice": productArr[4]
+                }
+
+                newProductList.push(productObj)
+            })
+        }
 
         const newOrder = new Order ({
             appId: data.id,
             clientName: data.client_name,
             clientId: data.client_id, 
             clientRegion: data.client_region,
-            productList : data.product_list, 
+            productList : newProductList, 
             totalToPay: data.total_to_pay, 
             verssi: data.verssi, 
             rest: data.rest, 
