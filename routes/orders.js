@@ -8,56 +8,76 @@ const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
-    const data = req.body.data
-    console.log(data);
+    const dataFromApp = req.body.data
+    var idCheck
+    var idObj = []
+    var reutrnStatus
+
+    console.log(dataFromApp);
     
-        var newProductList = []
-        if (order.product_list != "") {
-            var productListArr = order.product_list.split(":")
-            var productObj = {}
-            productListArr.map( product => {
-                let productArr = product.split("*")
-                productObj = {
-                    "productId": productArr[0],
-                    "productName": productArr[1],
-                    "productQty": productArr[2],
-                    "productQtyItem": productArr[3],
-                    "productPrice": productArr[4]
-                }
 
-                newProductList.push(productObj)
-            })
-        }
-
-        const newOrder = new Order ({
-            appId: order.id,
-            clientName: order.client_name,
-            clientId: new mongoose.mongo.ObjectId(order.client_id), 
-            clientRegion: order.client_region,
-            productList : newProductList, 
-            totalToPay: order.total_to_pay, 
-            verssi: order.verssi, 
-            rest: order.rest, 
-            profit: order.profit,
-            remise: order.remise,
-            camion: order.camion,
-            isCredit: order.iscredit, 
-            date: order.date, 
-            isCheck: order.is_check
-        })
+    async function insertData(Element) {
+        var status = ""
+        Element.server_id == "" ? idCheck = null : idCheck = await Order.findById(Element.server_id)
         
-        try {
-            console.log(newOrder);
-            const savedOrder = await newOrder.save()
-            res.status(201).json({
-                status: 1,
-                message: "Order save Successful",
-                data: savedOrder
+        if (idCheck != null) {
+            status = "done"
+        } else { 
+            var newProductList = []
+            if (order.product_list != "") {
+                var productListArr = order.product_list.split(":")
+                var productObj = {}
+                productListArr.map( product => {
+                    let productArr = product.split("*")
+                    productObj = {
+                        "productId": productArr[0],
+                        "productName": productArr[1],
+                        "productQty": productArr[2],
+                        "productQtyItem": productArr[3],
+                        "productPrice": productArr[4]
+                    }
+
+                    newProductList.push(productObj)
+                })
+            }
+        
+            const newOrder = new Order ({
+                appId: order.id,
+                clientName: order.client_name,
+                clientId: new mongoose.mongo.ObjectId(order.client_id), 
+                clientRegion: order.client_region,
+                productList : newProductList, 
+                totalToPay: order.total_to_pay, 
+                verssi: order.verssi, 
+                rest: order.rest, 
+                profit: order.profit,
+                remise: order.remise,
+                camion: order.camion,
+                isCredit: order.iscredit, 
+                date: order.date, 
+                isCheck: order.is_check
             })
-        } catch (err) {
-            console.log(err);
-            res.status(500).json(err)
+
+            try{
+                const order = await newOrder.save()
+                idObj.push(order)
+                status = "done"           
+            } catch (err) {
+                status = err
+            }
         }
+        return status
+    }
+
+    for (let i = 0; i < dataFromApp.length; i++) {
+        reutrnStatus = await insertData(dataFromApp[i])
+    }
+
+    if (reutrnStatus == "done") {
+        res.status(201).json({ idObj })
+    } else {
+        res.status(500).json(reutrnStatus)
+    }
     // } else {
         // res.status(500).json("you are not allowed!")
     // }
