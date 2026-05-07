@@ -24,8 +24,8 @@ router.post("/", async (req, res) => { // , verify
             status = "done"
         } else { 
             var newProductList = []
-            if (order.product_list != "") {
-                var productListArr = order.product_list.split(":")
+            if (Element.product_list != "") {
+                var productListArr = Element.product_list.split(":")
                 var productObj = {}
                 productListArr.map( product => {
                     let productArr = product.split("*")
