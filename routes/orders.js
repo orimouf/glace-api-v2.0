@@ -8,13 +8,16 @@ const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => { // , verify
     // if(req.user.isAdmin) {
-        const data = req.body.data
-        var ordersStatus
-        console.log(data);
-        
-        data.map( orderData => {
-            ordersStatus = await insertOrderData(orderData).catch(err => {console.log(err);})
-        })
+    const data = req.body.data
+    var ordersStatus
+    console.log(data);
+    
+    for (let i = 0; i < data.length; i++) {
+        ordersStatus = await insertOrderData(data[i]).catch(err => {console.log(err);})
+    }
+        // data.map( orderData => {
+            
+        // })
         
     async function insertOrderData(order) {
         var newProductList = []
