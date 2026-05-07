@@ -42,7 +42,7 @@ router.post("/", async (req, res) => { // , verify
             }
         
             const newOrder = new Order ({
-                appId: Element.id,
+                id: Element.id,
                 clientName: Element.client_name,
                 clientId: new mongoose.mongo.ObjectId(Element.client_id), 
                 clientRegion: Element.client_region,

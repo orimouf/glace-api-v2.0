@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const OrderSchema = new mongoose.Schema(
     {
-        appId: { type: String, required: true },
+        id: { type: String, required: true },
         clientName: { type: String, required: true },
         clientId: { type: Object, required: true },
         clientRegion: { type: Object, required: true },
