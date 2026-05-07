@@ -21,6 +21,7 @@ router.post("/", async (req, res) => { // , verify
         
     async function insertOrderData(order) {
         var newProductList = []
+        var allOrdersSaved = []
         var status = ""
         if (order.product_list != "") {
             var productListArr = order.product_list.split(":")
@@ -59,6 +60,7 @@ router.post("/", async (req, res) => { // , verify
         try {
             console.log(newOrder);
             const savedOrder = await newOrder.save()
+            allOrdersSaved.push(savedOrder)
             status = "done"
         } catch (err) {
             console.log(err);
@@ -71,7 +73,7 @@ router.post("/", async (req, res) => { // , verify
        res.status(200).json({
                 status: 1,
                 message: "Order save Successful",
-                data: "savedOrder"
+                data: allOrdersSaved
             })
     } else {
         res.status(500).json(ordersStatus)
