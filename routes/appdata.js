@@ -359,7 +359,7 @@ router.post("/datapayments", async (req, res) => {
                 clientName: Element.client_name,
                 clientId: new mongoose.mongo.ObjectId(Element.client_id),
                 region: Element.region,
-                oldSomme: Element.old_somme,
+                oldSomme: Element.oldSomme,
                 verssi: Element.verssi,
                 rest: Element.rest,
                 date: Element.date,
