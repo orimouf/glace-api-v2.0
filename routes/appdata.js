@@ -226,6 +226,7 @@ router.post("/datafees", async (req, res) => {
     const dataFromApp = req.body.data
     var reutrnStatus
     var idCheck
+    var idObj = []
  
     async function insertData(Element) {
         var status = ""
@@ -260,10 +261,7 @@ router.post("/datafees", async (req, res) => {
     }
 
     if (reutrnStatus == "done") {
-        res.status(201).json({
-            status: 1,
-            message: "Fees data save Successful",
-        })
+        (res.status(201).json({ idObj }))
     } else {
         res.status(500).json(reutrnStatus)
     }
