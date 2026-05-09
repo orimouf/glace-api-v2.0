@@ -197,7 +197,7 @@ router.post("/dataregions", async (req, res) => {
     
             try{
                 const region = await newRegion.save()
-                idObj.push(fees)
+                idObj.push(region)
                 status = "done"           
             } catch (err) {
                 status = err
