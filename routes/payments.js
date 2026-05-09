@@ -27,6 +27,7 @@ router.put("/:id", async (req, res) => {
         try {
 
             const newData = {
+                id: req.body.id,
                 clientName: req.body.clientName,
                 clientId: new mongoose.mongo.ObjectId(req.body.clientId),
                 oldSomme: req.body.totalToPay,

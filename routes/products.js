@@ -114,7 +114,7 @@ router.put("/:id", async (req, res) => {  //, verify
     try {
         const data = req.body
         const product = {
-            appId: data.appId, 
+            id: data.id, 
             name: data.name, 
             price: data.price, 
             qty_par_one: data.qty_par_one,

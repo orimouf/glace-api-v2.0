@@ -30,7 +30,7 @@ router.post("/dataclients", async (req, res) => {
                 if (appDate > serverDate) {
                     const updatedClient = await Client.findByIdAndUpdate(idCheck._id, 
                         {
-                            appId: Element.id,
+                            id: Element.id,
                             clientName: Element.client_name,
                             phone: Element.phone,
                             region: Element.region,
@@ -56,7 +56,7 @@ router.post("/dataclients", async (req, res) => {
             }
         } else {
             const newClient = new Client ({
-                appId: Element.id,
+                id: Element.id,
                 clientName: Element.client_name,
                 phone: Element.phone,
                 region: Element.region,
@@ -136,7 +136,7 @@ router.post("/datausers", async (req, res) => {
             }
         } else {
             const newUser = new User ({
-                appId: Element.id,
+                id: Element.id,
                 username: Element.username,
                 email: `${Element.username}@gmail.com`,
                 password: CryptoJS.AES.encrypt(
@@ -189,7 +189,7 @@ router.post("/dataregions", async (req, res) => {
             status = "done"
         } else {
             const newRegion = new Region ({
-                appId: Element.id,
+                id: Element.id,
                 regionName: Element.region_name,
                 camion: Element.camion
             })
@@ -235,7 +235,7 @@ router.post("/datafees", async (req, res) => {
             status = "done"
         } else {
             const newFees = new Fees ({
-                appId: Element.id,
+                id: Element.id,
                 DieselFees: Element.diesel_fees,
                 MealFees: Element.meal_fees,
                 OtherCostsSum: Element.other_costs_sum,
@@ -278,7 +278,7 @@ router.post("/dataproducts", async (req, res) => {
 
     async function insertData(Element) {
         var status = ""
-        const idCheck = await Product.findOne({ appId: Element.id})
+        const idCheck = await Product.findOne({ id: Element.id})
         if (idCheck != null) {
             try {
                 const appDate = new Date(Element.updatedAt)
@@ -287,7 +287,7 @@ router.post("/dataproducts", async (req, res) => {
                 if (appDate > serverDate) {
                     const updatedProduct = await Product.findByIdAndUpdate(idCheck._id, 
                         {
-                            appId: Element.id,
+                            id: Element.id,
                             name: Element.name,
                             price: Element.price,
                             qty_par_one: Element.qty_par_one,
@@ -305,7 +305,7 @@ router.post("/dataproducts", async (req, res) => {
             }
         } else {
             const newProduct = new Product ({
-                appId: Element.id,
+                id: Element.id,
                 name: Element.name,
                 price: Element.price,
                 qty_par_one: Element.qty_par_one,
@@ -355,7 +355,7 @@ router.post("/datapayments", async (req, res) => {
             status = "done"
         } else { 
             const newPayment = new Payment ({
-                appId: Element.id,
+                id: Element.id,
                 clientName: Element.client_name,
                 clientId: new mongoose.mongo.ObjectId(Element.client_id),
                 region: Element.region,

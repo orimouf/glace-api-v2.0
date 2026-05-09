@@ -150,7 +150,7 @@ router.get("/", async (req, res) => {
                             var Data = fridges.filter( e => e.fridgesPayments.length != 0)
                             Promise.all(Data.map( async (receive, i) => {
                                 const initialValue = 0;
-                                receive.appId = i+1
+                                receive.id = i+1
                                 receive['totalFridgeCapital'] = receive.fridgesPayments[0].totalFridgePrice,
                                 receive['totalPayments'] = receive.fridgesPayments.map( e => parseFloat(e.paymentFridgePrice)).reduce((a, b) =>  a + b, initialValue),
                                 receive['totalCredit'] = receive.fridgesPayments[0].totalFridgePrice - receive.fridgesPayments.map( e => parseFloat(e.paymentFridgePrice)).reduce((a, b) =>  a + b, initialValue)
@@ -162,7 +162,7 @@ router.get("/", async (req, res) => {
                         });
             // Promise.all(fridges.map( async (fridgesPayments, i) => {
             //         const initialValue = 0;
-            //         fridgesPayments.appId = i+1,
+            //         fridgesPayments.id = i+1,
             //         fridgesPayments['totalCapital'] = fridgesPayments.orders.map( e => parseFloat(e.totalToPay)).reduce((a, b) =>  a + b, initialValue),
             //         fridgesPayments['totalPayments'] = fridgesPayments.payments.map( e => parseFloat(e.verssi)).reduce((a, b) =>  a + b, initialValue),
             //         fridgesPayments['totalCredit'] = fridgesPayments.orders.map( e => parseFloat(e.rest)).reduce((a, b) =>  a + b, initialValue) - fridgesPayments.payments.map( e => parseFloat(e.verssi)).reduce((a, b) =>  a + b, initialValue),

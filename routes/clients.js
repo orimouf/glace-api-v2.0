@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
         let is_promo = clientDataFromApp.is_promo ? true : false
 
         const newClient = new Client ({
-            appId: clientDataFromApp.id,
+            id: clientDataFromApp.id,
             clientName: clientDataFromApp.client_name,
             phone: clientDataFromApp.phone,
             region: clientDataFromApp.region,
@@ -140,7 +140,7 @@ router.get("/ordresPayments", async (req, res) => {
                 let array = []
                 Promise.all(orders.map( async (receive, i) => {
                     const initialValue = 0;
-                    receive.appId = i+1,
+                    receive.id = i+1,
                     receive['totalCapital'] = receive.orders.map( e => parseFloat(e.totalToPay)).reduce((a, b) =>  a + b, initialValue),
                     receive['totalPayments'] = receive.payments.map( e => parseFloat(e.verssi)).reduce((a, b) =>  a + b, initialValue),
                     receive['totalCredit'] = receive.orders.map( e => parseFloat(e.rest)).reduce((a, b) =>  a + b, initialValue) - receive.payments.map( e => parseFloat(e.verssi)).reduce((a, b) =>  a + b, initialValue),
