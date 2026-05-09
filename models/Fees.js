@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const FeesSchema = new mongoose.Schema(
     {
-        appId: { type: String, required: true, unique: false },
+        id: { type: String, required: true, unique: false },
         DieselFees: { type: String, required: true },
         MealFees: { type: String, required: true },
         OtherCostsSum: { type: String, default: "0" },
