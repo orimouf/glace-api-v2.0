@@ -247,6 +247,7 @@ router.post("/datafees", async (req, res) => {
     
             try{
                 const fees = await newFees.save()
+                idObj.push(fees)
                 status = "done"           
             } catch (err) {
                 status = err
