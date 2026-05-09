@@ -388,4 +388,58 @@ router.post("/datapayments", async (req, res) => {
     
 })
 
+//SET DATA FridgePaymnets
+router.post("/datafridgepayments", async (req, res) => {
+
+    const dataFromApp = req.body.data
+    var idCheck
+    var idObj = []
+    var reutrnStatus
+
+    console.log(dataFromApp);
+    
+
+    async function insertData(Element) {
+        var status = ""
+        Element.server_id == "" ? idCheck = null : idCheck = await Fridge.findById(Element.server_id)
+        
+        if (idCheck != null) {
+            status = "done"
+        } else { 
+            const newFridge = new Fridge ({
+                id: Element.id,
+                clientName: Element.clientName,
+                clientId: new mongoose.mongo.ObjectId(Element.clientId),
+                region: Element.region,
+                totalFridgePrice: Element.totalFridgePrice,
+                paymentFridgePrice: Element.paymentFridgePrice,
+                restFridgePrice: Element.restFridgePrice,
+                date: Element.date,
+                camion: Element.camion,
+                isCheck: Element.isCheck
+            })
+
+            try{
+                const fridge = await newFridge.save()
+                idObj.push(fridge)
+                status = "done"           
+            } catch (err) {
+                status = err
+            }
+        }
+        return status
+    }
+
+    for (let i = 0; i < dataFromApp.length; i++) {
+        reutrnStatus = await insertData(dataFromApp[i])
+    }
+
+    if (reutrnStatus == "done") {
+        res.status(201).json({ idObj })
+    } else {
+        res.status(500).json(reutrnStatus)
+    }
+    
+})
+
 module.exports = router
