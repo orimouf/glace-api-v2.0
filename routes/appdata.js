@@ -289,6 +289,8 @@ router.post("/dataproducts", async (req, res) => {
                             id: Element.id,
                             name: Element.name,
                             price: Element.price,
+                            purchasePrice: Element.purchasePrice,
+                            qtyGlobal: Element.qtyGlobal,
                             qty_par_one: Element.qty_par_one,
                             image: Element.image,
                             status: Element.status
@@ -307,6 +309,8 @@ router.post("/dataproducts", async (req, res) => {
                 id: Element.id,
                 name: Element.name,
                 price: Element.price,
+                purchasePrice: Element.purchasePrice,
+                qtyGlobal: Element.qtyGlobal,
                 qty_par_one: Element.qty_par_one,
                 image: Element.image,
                 status: Element.status

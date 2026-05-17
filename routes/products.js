@@ -117,6 +117,8 @@ router.put("/:id", async (req, res) => {  //, verify
             id: data.id, 
             name: data.name, 
             price: data.price, 
+            purchasePrice: data.purchasePrice,
+            qtyGlobal: data.qtyGlobal,
             qty_par_one: data.qty_par_one,
             image: data.image, 
             status: data.status
