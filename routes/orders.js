@@ -44,11 +44,11 @@ router.post("/", async (req, res) => { // , verify
 
     for (let i = 0; i < dataFromApp.length; i++) {
         const Element = dataFromApp[i]
+        var profit = 0
         var newProductList = []
             if (Element.product_list != "") {
                 var productListArr = Element.product_list.split(":")
                 var productObj = {}
-                var profit = 0
                 productListArr.map( product => {
                     let productArr = product.split("*")
                     productObj = {
@@ -58,9 +58,6 @@ router.post("/", async (req, res) => { // , verify
                         "productQtyItem": productArr[3],
                         "productPrice": productArr[4]
                     }
-
-                    
-
                     newProductList.push(productObj)
                 })
             }
