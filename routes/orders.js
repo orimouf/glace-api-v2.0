@@ -39,7 +39,7 @@ router.post("/", async (req, res) => { // , verify
                         "productPrice": productArr[4]
                     }
 
-                    profit += calculeProfit(productArr[3], productArr[2], productArr[4])
+                    profit += calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
 
                     newProductList.push(productObj)
                 })
@@ -73,9 +73,9 @@ router.post("/", async (req, res) => { // , verify
         return status
     }
 
-    async function calculeProfit(Qty, QtyItem, Price) {
+    async function calculeProfit(productName, Qty, QtyItem, Price) {
         const products = await Product.find()
-        const thisProduct = products.filter( elm => elm.name == productArr[1] )
+        const thisProduct = products.filter( elm => elm.name == productName )
         const profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(thisProduct.purchasePrice))
         return profit
     }
