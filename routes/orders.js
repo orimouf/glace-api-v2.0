@@ -29,7 +29,7 @@ router.post("/", async (req, res) => { // , verify
                 var productListArr = Element.product_list.split(":")
                 var productObj = {}
                 var profit = 0
-                productListArr.map( async product => {
+                productListArr.map( product => {
                     let productArr = product.split("*")
                     productObj = {
                         "productId": productArr[0],
@@ -39,9 +39,7 @@ router.post("/", async (req, res) => { // , verify
                         "productPrice": productArr[4]
                     }
 
-                    const products = await Product.find()
-                    const thisProduct = products.filter( elm => elm.name == productArr[1] )
-                    profit += parseInt(productArr[3]) * parseInt(productArr[2]) * (parseInt(productArr[4]) - parseInt(thisProduct.purchasePrice))
+                    profit += calculeProfit(productArr[3], productArr[2], productArr[4])
 
                     newProductList.push(productObj)
                 })
@@ -73,6 +71,13 @@ router.post("/", async (req, res) => { // , verify
             }
         }
         return status
+    }
+
+    async function calculeProfit(Qty, QtyItem, Price) {
+        const products = await Product.find()
+        const thisProduct = products.filter( elm => elm.name == productArr[1] )
+        const profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(thisProduct.purchasePrice))
+        return profit
     }
 
     for (let i = 0; i < dataFromApp.length; i++) {
