@@ -36,14 +36,19 @@ router.post("/", async (req, res) => { // , verify
     }
 
     async function calculeProfit(productName, Qty, QtyItem, Price) {
+        var profit = 0
         const products = await Product.find()
-        const thisProduct = products.filter( elm => elm.name == productName )
-        console.log("thisProduct :  "+ thisProduct);
-        console.log("thisProduct 1111 :  "+ thisProduct.purchasePrice);
-        console.log("thisProduct 1111 :  "+ thisProduct.name);
-        console.log("thisProduct 2222:  "+Number(thisProduct.purchasePrice));
+        const thisProduct = products.map( elm => {
+            if (elm.name == productName) {
+                console.log("thisProduct :  "+ elm);
+                console.log("thisProduct 1111 :  "+ elm.purchasePrice);
+                console.log("thisProduct 1111 :  "+ elm.name);
+                console.log("thisProduct 2222:  "+Number(elm.purchasePrice));
+                
+                profit = Number(Qty) * Number(QtyItem) * (Number(Price) - Number(elm.purchasePrice))
+            }
+        })
         
-        const profit = Number(Qty) * Number(QtyItem) * (Number(Price) - Number(thisProduct.purchasePrice))
         return profit
     }
 
