@@ -49,7 +49,7 @@ router.post("/", async (req, res) => { // , verify
                 var productListArr = Element.product_list.split(":")
                 var productObj = {}
                 var profit = 0
-                productListArr.map( async product => {
+                productListArr.map( product => {
                     let productArr = product.split("*")
                     productObj = {
                         "productId": productArr[0],
@@ -59,10 +59,14 @@ router.post("/", async (req, res) => { // , verify
                         "productPrice": productArr[4]
                     }
 
-                    profit += await calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
+                    
 
                     newProductList.push(productObj)
                 })
+            }
+
+            for (let i = 0; i < newProductList.length; i++) {
+                profit += await calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
             }
         
             const newOrder = new Order ({
