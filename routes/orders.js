@@ -66,7 +66,7 @@ router.post("/", async (req, res) => { // , verify
             }
 
             for (let i = 0; i < newProductList.length; i++) {
-                profit += await calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
+                profit += await calculeProfit(newProductList[i].productName, newProductList[i].productQtyItem, newProductList[i].productQty, newProductList[i].productPrice)
             }
         
             const newOrder = new Order ({
