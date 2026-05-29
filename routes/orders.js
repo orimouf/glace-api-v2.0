@@ -40,12 +40,7 @@ router.post("/", async (req, res) => { // , verify
         const products = await Product.find()
         const thisProduct = products.map( elm => {
             if (elm.name == productName) {
-                console.log("thisProduct :  "+ elm);
-                console.log("thisProduct 1111 :  "+ elm.purchasePrice);
-                console.log("thisProduct 1111 :  "+ elm.name);
-                console.log("thisProduct 2222:  "+Number(elm.purchasePrice));
-                
-                profit = Number(Qty) * Number(QtyItem) * (Number(Price) - Number(elm.purchasePrice))
+                profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(elm.purchasePrice))
             }
         })
         
@@ -56,42 +51,42 @@ router.post("/", async (req, res) => { // , verify
         const Element = dataFromApp[i]
         var profit = 0
         var newProductList = []
-            if (Element.product_list != "") {
-                var productListArr = Element.product_list.split(":")
-                var productObj = {}
-                productListArr.map( product => {
-                    let productArr = product.split("*")
-                    productObj = {
-                        "productId": productArr[0],
-                        "productName": productArr[1],
-                        "productQty": productArr[2],
-                        "productQtyItem": productArr[3],
-                        "productPrice": productArr[4]
-                    }
-                    newProductList.push(productObj)
-                })
-            }
-
-            for (let i = 0; i < newProductList.length; i++) {
-                profit += await calculeProfit(newProductList[i].productName, newProductList[i].productQtyItem, newProductList[i].productQty, newProductList[i].productPrice)
-            }
-        
-            const newOrder = new Order ({
-                id: Element.id,
-                clientName: Element.client_name,
-                clientId: new mongoose.mongo.ObjectId(Element.client_id), 
-                clientRegion: Element.client_region,
-                productList : newProductList, 
-                totalToPay: Element.total_to_pay, 
-                verssi: Element.verssi, 
-                rest: Element.rest, 
-                profit: profit,
-                remise: Element.remise,
-                camion: Element.camion,
-                isCredit: Element.iscredit, 
-                date: Element.date, 
-                isCheck: Element.is_check
+        if (Element.product_list != "") {
+            var productListArr = Element.product_list.split(":")
+            var productObj = {}
+            productListArr.map( product => {
+                let productArr = product.split("*")
+                productObj = {
+                    "productId": productArr[0],
+                    "productName": productArr[1],
+                    "productQty": productArr[2],
+                    "productQtyItem": productArr[3],
+                    "productPrice": productArr[4]
+                }
+                newProductList.push(productObj)
             })
+        }
+
+        for (let i = 0; i < newProductList.length; i++) {
+            profit += await calculeProfit(newProductList[i].productName, newProductList[i].productQtyItem, newProductList[i].productQty, newProductList[i].productPrice)
+        }
+        
+        const newOrder = new Order ({
+            id: Element.id,
+            clientName: Element.client_name,
+            clientId: new mongoose.mongo.ObjectId(Element.client_id), 
+            clientRegion: Element.client_region,
+            productList : newProductList, 
+            totalToPay: Element.total_to_pay, 
+            verssi: Element.verssi, 
+            rest: Element.rest, 
+            profit: profit,
+            remise: Element.remise,
+            camion: Element.camion,
+            isCredit: Element.iscredit, 
+            date: Element.date, 
+            isCheck: Element.is_check
+        })
 
         reutrnStatus = await insertData(newOrder, Element)
     }
