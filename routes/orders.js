@@ -38,6 +38,9 @@ router.post("/", async (req, res) => { // , verify
     async function calculeProfit(productName, Qty, QtyItem, Price) {
         const products = await Product.find()
         const thisProduct = products.filter( elm => elm.name == productName )
+        console.log("thisProduct :  "+thisProduct);
+        console.log("thisProduct 2222:  "+parseInt(thisProduct.purchasePrice));
+        
         const profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(thisProduct.purchasePrice))
         return profit
     }
