@@ -3,6 +3,7 @@ const Order = require("../models/Order")
 const Client = require("../models/Client")
 const verify = require("../verifyToken")
 const mongoose = require("mongoose")
+const Product = require("../models/Product")
 
 // CREATE
 
@@ -27,7 +28,8 @@ router.post("/", async (req, res) => { // , verify
             if (Element.product_list != "") {
                 var productListArr = Element.product_list.split(":")
                 var productObj = {}
-                productListArr.map( product => {
+                var profit = 0
+                productListArr.map( async product => {
                     let productArr = product.split("*")
                     productObj = {
                         "productId": productArr[0],
@@ -36,6 +38,10 @@ router.post("/", async (req, res) => { // , verify
                         "productQtyItem": productArr[3],
                         "productPrice": productArr[4]
                     }
+
+                    const products = await Product.find()
+                    const thisProduct = product.filter( elm => elm.name == productArr[1] )
+                    profit += parseInt(productArr[3]) * parseInt(productArr[2]) * (parseInt(productArr[4]) - parseInt(thisProduct.purchasePrice))
 
                     newProductList.push(productObj)
                 })
@@ -50,7 +56,7 @@ router.post("/", async (req, res) => { // , verify
                 totalToPay: Element.total_to_pay, 
                 verssi: Element.verssi, 
                 rest: Element.rest, 
-                profit: Element.profit,
+                profit: profit,
                 remise: Element.remise,
                 camion: Element.camion,
                 isCredit: Element.iscredit, 
