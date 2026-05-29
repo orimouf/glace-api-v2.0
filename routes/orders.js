@@ -40,7 +40,7 @@ router.post("/", async (req, res) => { // , verify
                     }
 
                     const products = await Product.find()
-                    const thisProduct = product.filter( elm => elm.name == productArr[1] )
+                    const thisProduct = Object.values(product).filter( elm => elm.name == productArr[1] )
                     profit += parseInt(productArr[3]) * parseInt(productArr[2]) * (parseInt(productArr[4]) - parseInt(thisProduct.purchasePrice))
 
                     newProductList.push(productObj)
