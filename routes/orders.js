@@ -17,19 +17,39 @@ router.post("/", async (req, res) => { // , verify
     console.log(dataFromApp);
     
 
-    async function insertData(Element) {
+    async function insertData(newOrder, Element) {
         var status = ""
         Element.server_id == "" ? idCheck = null : idCheck = await Order.findById(Element.server_id)
         
         if (idCheck != null) {
             status = "done"
         } else { 
-            var newProductList = []
+            try{
+                const order = await newOrder.save()
+                idObj.push(order)
+                status = "done"           
+            } catch (err) {
+                status = err
+            }
+        }
+        return status
+    }
+
+    async function calculeProfit(productName, Qty, QtyItem, Price) {
+        const products = await Product.find()
+        const thisProduct = products.filter( elm => elm.name == productName )
+        const profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(thisProduct.purchasePrice))
+        return profit
+    }
+
+    for (let i = 0; i < dataFromApp.length; i++) {
+        const Element = dataFromApp[i]
+        var newProductList = []
             if (Element.product_list != "") {
                 var productListArr = Element.product_list.split(":")
                 var productObj = {}
                 var profit = 0
-                productListArr.map( product => {
+                productListArr.map( async product => {
                     let productArr = product.split("*")
                     productObj = {
                         "productId": productArr[0],
@@ -39,7 +59,7 @@ router.post("/", async (req, res) => { // , verify
                         "productPrice": productArr[4]
                     }
 
-                    profit += calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
+                    profit += await calculeProfit(productArr[1], productArr[3], productArr[2], productArr[4])
 
                     newProductList.push(productObj)
                 })
@@ -62,26 +82,7 @@ router.post("/", async (req, res) => { // , verify
                 isCheck: Element.is_check
             })
 
-            try{
-                const order = await newOrder.save()
-                idObj.push(order)
-                status = "done"           
-            } catch (err) {
-                status = err
-            }
-        }
-        return status
-    }
-
-    async function calculeProfit(productName, Qty, QtyItem, Price) {
-        const products = await Product.find()
-        const thisProduct = products.filter( elm => elm.name == productName )
-        const profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(thisProduct.purchasePrice))
-        return profit
-    }
-
-    for (let i = 0; i < dataFromApp.length; i++) {
-        reutrnStatus = await insertData(dataFromApp[i])
+        reutrnStatus = await insertData(newOrder, Element)
     }
 
     if (reutrnStatus == "done") {
