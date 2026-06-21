@@ -114,11 +114,12 @@ router.get("/", async (req, res) => {
                     var arrayPrices = o.split("*")
                     ooo.push(arrayPrices)
                 })
-                llll.push(ooo.length)
+                if (ooo.length < 64) {
+                    llll.push(ooo.length)
+                }
+                
                 
             })
-
-            llll.filter(f => f.length < 64)
 
             res.status(200).json({ llll }) //clients
         } catch (err) {
