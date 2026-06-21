@@ -114,7 +114,7 @@ router.get("/", async (req, res) => {
                     var arrayPrices = o.split("*")
                     ooo.push(arrayPrices)
                 })
-                llll.push(ooo)
+                llll.push(ooo.length)
                 
             })
 
