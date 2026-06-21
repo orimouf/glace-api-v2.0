@@ -118,6 +118,8 @@ router.get("/", async (req, res) => {
                 
             })
 
+            llll.filter(f => f.length < 64)
+
             res.status(200).json({ llll }) //clients
         } catch (err) {
             res.status(500).json(err)
