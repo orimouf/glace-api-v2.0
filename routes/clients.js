@@ -109,8 +109,12 @@ router.get("/", async (req, res) => {
 
             clients.map( e => {
                 var clientPrices = e.prices.split(":")
-                var arrayPrices = clientPrices.split("*")
-                llll.push(arrayPrices)
+                clientPrices.map( o => {
+                    var arrayPrices = o.split("*")
+                    llll.push(arrayPrices)
+                })
+                
+                
             })
 
             res.status(200).json({ llll }) //clients
