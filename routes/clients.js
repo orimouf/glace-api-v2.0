@@ -109,11 +109,12 @@ router.get("/", async (req, res) => {
 
             clients.map( e => {
                 var clientPrices = e.prices.split(":")
+                var ooo = []
                 clientPrices.map( o => {
                     var arrayPrices = o.split("*")
-                    llll.push(arrayPrices)
+                    ooo.push(arrayPrices)
                 })
-                
+                llll.push(ooo)
                 
             })
 
