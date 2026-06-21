@@ -115,13 +115,13 @@ router.get("/", async (req, res) => {
                     ooo.push(arrayPrices)
                 })
                 if (ooo.length < 64) {
-                    llll.push(ooo.length)
+                    llll.push(ooo)
+
+                    e.prices = e.prices + ":6a0915304ff459b85e286445*30:6a0915b34ff459b85e2865e8*50:6a09160a4ff459b85e28678b*50:6a09165b4ff459b85e28692e*160:6a0916ac4ff459b85e286ad1*30:6a0917044ff459b85e286c74*55:6a09172c4ff459b85e286e17*50:6a0917884ff459b85e286fba*50:6a0918014ff459b85e28715d*70:6a0918474ff459b85e287300*140:6a09185a4ff459b85e2874a3*100:6a0918784ff459b85e287646*120:6a0918c14ff459b85e2877e9*50:6a09191f4ff459b85e28798c*35:6a09199e4ff459b85e287b2f*30:6a0919d54ff459b85e287cd2*50:6a091a1e4ff459b85e287e75*65:6a091ac14ff459b85e288018*65"
                 }
-                
-                
             })
 
-            res.status(200).json({ llll }) //clients
+            res.status(200).json({ clients }) //clients
         } catch (err) {
             res.status(500).json(err)
         }
