@@ -105,7 +105,14 @@ router.get("/", async (req, res) => {
     // if(req.user.isAdmin) {
         try {
             const clients = query ? await Client.find().sort({_id: -1}).limit(10) : await Client.find()
-            res.status(200).json({ clients })
+            var llll = []
+
+            clients.map( e => {
+                var clientPrices = e.prices.split(":")
+                llll.push(clientPrices)
+            })
+
+            res.status(200).json({ llll }) //clients
         } catch (err) {
             res.status(500).json(err)
         }
