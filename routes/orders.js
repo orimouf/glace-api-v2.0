@@ -114,6 +114,7 @@ router.put("/:id", async (req, res) => {
                 verssi: req.body.verssi,
                 rest: req.body.rest,
                 date: req.body.date,
+                profit: req.body.profit,
                 camion: req.body.camion,
                 isCheck: req.body.isCheck,
                 isCredit: req.body.isCredit
