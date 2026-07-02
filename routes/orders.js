@@ -106,107 +106,31 @@ router.post("/", async (req, res) => { // , verify
 router.put("/:id", async (req, res) => {
     // if(req.user.isAdmin) {
 
-    const dataFromApp = req.body.data
-    var idCheck
-    var idObj = []
-    var reutrnStatus
-
-    console.log(dataFromApp);
-    
-
-    async function insertData(newOrder) {
-        var status = ""
-        try{
-            const updatedOrder = await Order.findByIdAndUpdate(
-            req.params.id, 
-            { $set: newOrder },
-            { new: true }
-             )
-        status = "done"           
-        } catch (err) {
-            status = err
-        }
-        return status
-    }
-
-    async function calculeProfit(productName, Qty, QtyItem, Price) {
-        var profit = 0
-        const products = await Product.find()
-        const thisProduct = products.map( elm => {
-            if (elm.name == productName) {
-                profit = ((parseInt(Qty) == 0) ? 1 : parseInt(Qty)) * parseInt(QtyItem) * (parseInt(Price) - parseInt(elm.purchasePrice))
-            }
-        })
-        
-        return profit
-    }
-
-    const orders = await Order.findById("6a468170c74a1a95532aa9e9")
-
-    for (let i = 0; i < orders.length; i++) {
-        const Element = orders[i]
-        var profit = 0
-
-        for (let i = 0; i < Element.length; i++) {
-            profit += await calculeProfit(Element[i].productList.productName, Element[i].productList.productQtyItem, Element[i].productList.productQty, Element[i].productList.productPrice)
-        }
-
-        // orders[i].profit = profit
-        
-        const newOrder = new Order ({
-            id: Element.id,
-            clientName: Element.client_name,
-            clientId: new mongoose.mongo.ObjectId(Element.client_id), 
-            clientRegion: Element.client_region,
-            productList : newProductList, 
-            totalToPay: Element.total_to_pay, 
-            verssi: Element.verssi, 
-            rest: Element.rest, 
-            profit: profit,
-            remise: Element.remise,
-            camion: Element.camion,
-            isCredit: Element.iscredit, 
-            date: Element.date, 
-            isCheck: Element.is_check
-        })
-
-        reutrnStatus = await insertData(newOrder)
-    }
-
-    if (reutrnStatus == "done") {
-        res.status(201).json({ idObj })
-    } else {
-        res.status(500).json(reutrnStatus)
-    }
-
+   try {
             
-//------------------------------------------------------
-            // const newData = {
-            //     clientName: req.body.clientName,
-            //     clientId: new mongoose.mongo.ObjectId(req.body.clientId),
-            //     clientRegion: req.body.client_region,
-            //     totalToPay: req.body.totalToPay,
-            //     verssi: req.body.verssi,
-            //     rest: req.body.rest,
-            //     date: req.body.date,
-            //     profit: req.body.profit,
-            //     camion: req.body.camion,
-            //     isCheck: req.body.isCheck,
-            //     isCredit: req.body.isCredit
-            // }
-        //     const updatedOrder = await Order.findByIdAndUpdate(
-        //         req.params.id, 
-        //         { $set: newData },
-        //         { new: true }
-        //     )
-        //     res.status(200).json(updatedOrder);
-        // } catch (err) {
-        //     res.status(500).json(err)
-        // }
+        const newData = {
+            clientName: req.body.clientName,
+            clientId: new mongoose.mongo.ObjectId(req.body.clientId),
+            clientRegion: req.body.client_region,
+            totalToPay: req.body.totalToPay,
+            verssi: req.body.verssi,
+            rest: req.body.rest,
+            date: req.body.date,
+            profit: req.body.profit,
+            camion: req.body.camion,
+            isCheck: req.body.isCheck,
+            isCredit: req.body.isCredit
+        }
+        const updatedOrder = await Order.findByIdAndUpdate(
+            req.params.id, 
+            { $set: newData },
+            { new: true }
+        )
 
-
-
-        //------------------------------------
+        res.status(200).json(updatedOrder);
+    } catch (err) {
+        res.status(500).json(err)
+    }
     // } else {
     //     res.status(500).json("you are not allowed!")
     // }
@@ -382,4 +306,88 @@ router.get("/", async (req, res) => {
     // }
 })
 
+
+
+/*
+
+update all profit
+
+ const dataFromApp = req.body.data
+    var idCheck
+    var idObj = []
+    var reutrnStatus    
+
+    async function insertData(orders) {
+        var status = ""
+
+        try{
+            const updatedOrder = await Order.findByIdAndUpdate(
+            orders._id, 
+            { $set: orders },
+            { new: true }
+             )
+        status = "done"           
+        } catch (err) {
+            status = err
+        }
+        return status
+    }
+
+    async function calculeProfit(productName, Qty, QtyItem, Price) {
+        var profit = 0
+        const products = await Product.find()
+        const thisProduct = products.map( elm => {
+            if (elm.name == productName) {
+                profit = ((parseInt(Qty) == 0) ? 1 : parseInt(Qty)) * parseInt(QtyItem) * (parseInt(Price) - parseInt(elm.purchasePrice))
+            }
+        })
+        
+        return profit
+    }
+
+    const orders = await Order.find().lean().exec()
+
+for (let i = 0; i < orders.length; i++) {
+        
+        const Element = orders[i]
+        const productList = Element.productList
+        var profit = 0
+
+        for (let i = 0; i < productList.length; i++) {
+            profit += await calculeProfit(productList[i].productName, productList[i].productQtyItem, productList[i].productQty, productList[i].productPrice)
+        }
+        
+
+        // orders[i].profit = profit
+        
+        const newOrder = {
+            _id: Element._id,
+                clientName: Element.clientName,
+                clientId: new mongoose.mongo.ObjectId(Element.clientId),
+                clientRegion: Element.clientRegion,
+                totalToPay: Element.totalToPay,
+                verssi: Element.verssi,
+                rest: Element.rest,
+                date: Element.date,
+                profit: profit,
+                camion: Element.camion,
+                isCheck: Element.isCheck,
+                isCredit: Element.isCredit
+            }
+
+        reutrnStatus = await insertData(newOrder)
+    }
+    
+
+    
+console.log(reutrnStatus);
+    if (reutrnStatus == "done") {
+        res.status(201).json({ idObj })
+    } else {
+        res.status(500).json(reutrnStatus)
+    }
+
+
+
+    */
 module.exports = router
