@@ -40,7 +40,7 @@ router.post("/", async (req, res) => { // , verify
         const products = await Product.find()
         const thisProduct = products.map( elm => {
             if (elm.name == productName) {
-                profit = parseInt(Qty) * parseInt(QtyItem) * (parseInt(Price) - parseInt(elm.purchasePrice))
+                profit = ((parseInt(Qty) == 0) ? 1 : parseInt(Qty)) * parseInt(QtyItem) * (parseInt(Price) - parseInt(elm.purchasePrice))
             }
         })
         
