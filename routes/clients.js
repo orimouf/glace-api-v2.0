@@ -233,7 +233,7 @@ router.get("/active", async (req, res) => {
             const check = orders.some( order => order.clientId.toString() === client._id.toString())
          
             if (check) {
-                const { id, phone, region, prices, oldCredit, creditBon, lastServe, camion, isPromo, remise, status, synchronization, createdAt, updatedAt, __v, ...info } = client._doc
+                const { id, phone, region, prices, oldCredit, creditBon, lastServe, camion, isPromo, remise, isCredit, status, synchronization, createdAt, updatedAt, __v, ...info } = client._doc
                 clientList.push(info)
             }
         })
