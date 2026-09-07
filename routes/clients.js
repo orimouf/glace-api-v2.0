@@ -2,6 +2,7 @@ const router = require("express").Router()
 const Client = require("../models/Client")
 const CryptoJS = require("crypto-js")
 const verify = require("../verifyToken")
+const Order = require("../models/Order")
 
 // CREATE
 
@@ -90,7 +91,7 @@ router.delete("/:id", verify, async (req, res) => {
 
 router.get("/find/:id", async (req, res) => {
     try {
-        const client = await Client.findByIdAndDelete(req.params.id)
+        const client = await Client.findById(req.params.id)
         const { password, ...info } = client._doc
 
         res.status(200).json(info)
@@ -192,6 +193,55 @@ router.get("/ordresPayments", async (req, res) => {
     // } else {
     //     res.status(500).json("you are not allowed!")
     // }
+})
+
+//GET QR CODE
+
+router.get("/qrcode/:id", async (req, res) => {
+    try {
+        const client = await Client.findById(req.params.id)
+
+        const QRCode = require('qrcode');
+
+        const data = req.params.id;
+        const filename = `qr_code/${client.clientName}_${client._id}.png`;
+
+        // Generate QR code and save it as a PNG file
+        QRCode.toFile(filename, data, function (err) {
+            if (err) throw err;
+            res.status(200).json(filename);
+            console.log(`✅ QR code successfully saved as ${filename}`);
+        });
+
+        
+    } catch (err) {
+        console.log(err);
+        
+        res.status(500).json(err)
+    }
+})
+
+
+//GET
+
+router.get("/active", async (req, res) => {
+    try {
+        var clientList = []
+        const clients = await Client.find()
+        const orders = await Order.find()
+        clients.map( client => {
+            const check = orders.some( order => order.clientId.toString() === client._id.toString())
+         
+            if (check) {
+                const { id, phone, region, prices, oldCredit, creditBon, lastServe, camion, isPromo, remise, status, synchronization, createdAt, updatedAt, __v, ...info } = client._doc
+                clientList.push(info)
+            }
+        })
+
+        res.status(200).json(clientList)
+    } catch (err) {
+        res.status(500).json(err)
+    }
 })
 
 // router.get("/camion01/", async (req, res) => {
