@@ -298,8 +298,8 @@ router.get("/", async (req, res) => {
     const arrayNames = req.query.a
         try {
             const orders = await Order.find()
-            
-            const clientsArray = arrayNames.map( clientName => {
+
+            const clientsArray = arrayNames.map( (clientName, index) => {
                 var client = {}
                 var clientComisions = 0
                 var clientProfits = 0
@@ -318,13 +318,14 @@ router.get("/", async (req, res) => {
                         clientProfits += parseFloat(or.profit)
 
                         client = {
-                                "_id": or._id,
-                                "clientName": or.clientName,
-                                "clientId": or.clientId,
-                                "clientRegion": or.clientRegion,
-                                // "productList": or.productList,
-                                "profit": clientProfits,
-                                "comision": clientComisions
+                            "id": index,
+                            "_id": or._id,
+                            "clientName": or.clientName,
+                            "clientId": or.clientId,
+                            "clientRegion": or.clientRegion,
+                            // "productList": or.productList,
+                            "profit": clientProfits,
+                            "comision": clientComisions
                         }
                     }
                 } )
