@@ -330,6 +330,10 @@ router.get("/", async (req, res) => {
                     }
                 } )
 
+                if (client == NaN) {
+                    console.log(or.clientName);
+                    
+                }
                 return client
             })
             
