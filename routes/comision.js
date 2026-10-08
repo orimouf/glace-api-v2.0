@@ -334,6 +334,9 @@ router.get("/", async (req, res) => {
                     arrayClientList.push(client)
                 }
             })
+
+            console.log(arrayClientList);
+            
             
 
             res.status(200).json({ arrayClientList })
