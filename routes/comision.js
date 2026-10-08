@@ -298,47 +298,45 @@ router.get("/", async (req, res) => {
     const arrayNames = req.query.a
         try {
             const orders = await Order.find()
+            var arrayClientList = []
 
             const clientsArray = arrayNames.map( (clientName, index) => {
-                var client = {}
-                var clientComisions = 0
-                var clientProfits = 0
+                const newOrders = orders.filter( order => order.clientName == clientName)
+                if (newOrders.length != 0) {
+                    var client = {}
+                    var clientComisions = 0
+                    var clientProfits = 0
 
-                orders.map( or => {
-                    if (or.clientName == clientName) {
+                    newOrders.map( or => {
                         const product = or.productList
-                        var comisions = 0
-                        product.map( pr => {
-                            if (pr.productQtyItem != "0") {
-                                comisions += (pr.productQtyItem * 20)
+                            var comisions = 0
+                            product.map( pr => {
+                                if (pr.productQtyItem != "0") {
+                                    comisions += (pr.productQtyItem * 20)
+                                }
+                            })
+
+                            clientComisions += comisions
+                            clientProfits += parseFloat(or.profit)
+
+                            client = {
+                                "id": index,
+                                "_id": or._id,
+                                "clientName": or.clientName,
+                                "clientId": or.clientId,
+                                "clientRegion": or.clientRegion,
+                                // "productList": or.productList,
+                                "profit": clientProfits,
+                                "comision": clientComisions
                             }
-                        })
+                    } )
 
-                        clientComisions += comisions
-                        clientProfits += parseFloat(or.profit)
-
-                        client = {
-                            "id": index,
-                            "_id": or._id,
-                            "clientName": or.clientName,
-                            "clientId": or.clientId,
-                            "clientRegion": or.clientRegion,
-                            // "productList": or.productList,
-                            "profit": clientProfits,
-                            "comision": clientComisions
-                        }
-                    }
-                } )
-
-                if (client == NaN) {
-                    console.log(or.clientName);
-                    res.status(500).json(or.clientName)
+                    arrayClientList.push(client)
                 }
-                return client
             })
             
 
-            res.status(200).json({ clientsArray })
+            res.status(200).json({ arrayClientList })
         } catch (err) {
             res.status(500).json(err)
         }
