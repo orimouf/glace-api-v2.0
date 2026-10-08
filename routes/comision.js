@@ -304,7 +304,7 @@ router.get("/", async (req, res) => {
                 var clientComisions = 0
                 var clientProfits = 0
 
-                orders.filter( or => {
+                orders.map( or => {
                     if (or.clientName == clientName) {
                         const product = or.productList
                         var comisions = 0
