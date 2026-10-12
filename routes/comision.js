@@ -335,10 +335,6 @@ router.get("/", async (req, res) => {
                 }
             })
 
-            console.log(arrayClientList);
-            
-            
-
             res.status(200).json({ arrayClientList })
         } catch (err) {
             res.status(500).json(err)

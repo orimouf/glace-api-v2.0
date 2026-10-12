@@ -221,6 +221,26 @@ router.get("/qrcode/:id", async (req, res) => {
     }
 })
 
+//GET ALL
+router.get("/comisions/", async (req, res) => {
+
+    // if(req.user.isAdmin) {
+        try {
+            const targetDate = new Date('2026-07-11T13:16:17.032+00:00');
+
+            const clients = await Client.find({
+            createdAt: { $gte: targetDate }
+            })
+
+            res.status(200).json({ clients }) //clients
+        } catch (err) {
+            res.status(500).json(err)
+        }
+    // } else {
+    //     res.status(500).json("you are not allowed to see all clients!")
+    // }
+})
+
 
 //GET
 
